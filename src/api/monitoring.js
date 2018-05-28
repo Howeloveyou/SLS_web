@@ -80,3 +80,19 @@ export function  turnOffCircuit(chooseCircuitIds,doneTime,userId) {
     params:{chooseCircuitIds,doneTime,userId}
   })
 }
+
+export function getProjectPoints(projectId) {
+  return fetch({
+    url: 'api/project/getProjectPoints',
+    method: 'get',
+    params:{projectId}
+  })
+}
+
+export function getConcentratorPoints(projectId) {
+  return fetch({
+    url: 'api/project/getConcentratorPoints',
+    method: 'get',
+    params:{projectId}
+  })
+}

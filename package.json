@@ -21,6 +21,7 @@
     "style-loader": "^0.20.3",
     "vue": "2.5.2",
     "vue-baidu-map": "^0.21.1",
+    "vue-jlunar-datepicker": "^2.2.2",
     "vue-router": "2.7.0",
     "vuex": "2.3.1"
   },

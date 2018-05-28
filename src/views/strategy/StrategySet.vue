@@ -27,7 +27,7 @@
       </el-col>
     </el-row>
     <el-tabs type="card" style="margin-top: 20px" v-model="params.chooseCycle" @tab-click="chooseTab">
-      <el-tab-pane :name="'1'" >
+      <el-tab-pane :name="'1'" style="height: 320px" >
         <span slot="label" ><icon-svg  :icon-class="moren"/> 默认</span>
         <div style="margin-left:90%">
           <el-button type="primary" size="mini" :disabled="defaultCommitFlag" @click="defaultCommit">提交</el-button>
@@ -141,7 +141,7 @@
           </el-col>
         </el-row>
       </el-tab-pane>
-      <el-tab-pane :name="'2'" >
+      <el-tab-pane :name="'2'" style="height: 320px" >
         <span slot="label" ><icon-svg  :icon-class="weekend"/>周末</span>
         <div style="margin-left:90%">
           <el-button type="primary" size="mini" :disabled="weekendCommitFlag" @click="weekendCommit">提交</el-button>
@@ -236,8 +236,97 @@
           </el-col>
         </el-row>
       </el-tab-pane>
-      <el-tab-pane :name="'3'" >
+      <el-tab-pane :name="'3'" style="height: 320px" >
         <span slot="label" ><i class="el-icon-star-off"></i>节假日</span>
+        <div style="margin-left:90%">
+          <el-button type="primary" size="mini" :disabled="festivalCommitFlag" @click="festivalCommit">提交</el-button>
+        </div>
+        <span>选择日期：</span>
+        <j-date-picker v-model="params.startDay"
+                       :showLunarIcon="showLunarIcon"
+                       :format="format":showLunarControl="showLunarControl">
+
+        </j-date-picker>
+        <el-row style="margin-top: 30px;margin-left: 20px">
+          <el-col>
+            <el-switch
+              v-model="d"
+              active-color="#D1EEEE"
+              inactive-color="#D1EEEE"
+              active-text="车流"
+              inactive-text="光感">
+            </el-switch>
+          </el-col>
+        </el-row>
+        <el-row  :gutter="5" style="margin-top: 30px;margin-left: 20px">
+          <el-col :span="12">
+            <el-switch
+              v-model="params.onAbsoluteTime"
+              active-color="#D1EEEE"
+              inactive-color="#D1EEEE"
+              active-text="相对时间"
+              active-value="0"
+              inactive-text="绝对时间"
+              inactive-value="1">
+            </el-switch>
+          </el-col>
+          <el-col :span="12">
+            <el-switch
+              v-model="params.offAbsoluteTime"
+              active-color="#D1EEEE"
+              inactive-color="#D1EEEE"
+              active-text="相对时间"
+              active-value="0"
+              inactive-text="绝对时间"
+              inactive-value="1">
+            </el-switch>
+          </el-col>
+        </el-row>
+        <el-row  :gutter="0" style="margin-top: 30px;margin-left: 20px">
+          <el-col :span="12">
+            <span>开灯时间：</span>
+            <el-select v-model="params.onAbsolute"
+                       :disabled="params.onAbsoluteTime === '1'"
+                       placeholder="请选择"
+                       style="width: 100px">
+              <el-option
+                v-for="item in SunsetOptions"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+            <el-time-picker
+              v-model="params.onTime"
+              size="small"
+              value-format="HH:mm"
+              :picker-options="{format: 'HH:mm' }"
+              placeholder="任意时间点">
+            </el-time-picker>
+          </el-col>
+          <el-col :span="12">
+            <span>开灯时间：</span>
+            <el-select v-model="params.offAbsolute"
+                       :disabled="params.offAbsoluteTime === '1'"
+                       placeholder="请选择"
+                       style="width: 100px">
+              <el-option
+                v-for="item in SunriseOptions"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+            <el-time-picker
+              v-model="params.offTime"
+              size="small"
+              value-format="HH:mm"
+              :picker-options="{format: 'HH:mm' }"
+              placeholder="任意时间点">
+            </el-time-picker>
+          </el-col>
+        </el-row>
+
       </el-tab-pane>
       <el-tab-pane :name="'4'">
         <span slot="label"><i class="el-icon-star-off"></i>当日</span>
@@ -337,6 +426,7 @@
               offAbsolute:null,
               offTime:null,
               lightness:100,
+              startDay:null,
             },
             endMonthRange:[],
             StrategyDetail:null,
@@ -347,13 +437,12 @@
             moren:"default",
             checkList:[],
             d:false,
-
-
             endTime:null,
-
-
             sunsetTime:null,
             sunriseTime:null,
+            showLunarIcon:true,
+            showLunarControl:false,
+            format:"MM-DD",
             SunsetOptions:[
               {
                 value: -1,

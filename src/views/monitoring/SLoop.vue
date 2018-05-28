@@ -100,12 +100,18 @@
           <el-card shadow="hover">
             <div slot="header" class="clearfix">
               <span>集中器</span>
-              <el-button
-                style="margin-left: 130px"
-                size="mini"
-                type="warning"
-                @click=""
-                icon="el-icon-document">策略</el-button>
+              <el-button-group style="margin-left: 30px">
+                <el-button
+                  size="mini"
+                  type="success"
+                  @click="showOnCircuit"
+                  icon="el-icon-circle-check-outline">开</el-button>
+                <el-button
+                  size="mini"
+                  type="danger"
+                  @click="showOffCircuit"
+                  icon="el-icon-circle-close-outline">关</el-button>
+              </el-button-group>
             </div>
             <el-table ref="multipleTable" :data="concentratorList" v-loading="listLoading" element-loading-text="给我一点时间" border fit highlight-current-row
                       style="width: 100%;margin-top: 10px"
@@ -132,11 +138,6 @@
                   type="danger"
                   @click="showOffCircuit"
                   icon="el-icon-circle-close-outline">关</el-button>
-                <el-button
-                  size="mini"
-                  type="warning"
-                  @click=""
-                  icon="el-icon-document">策略</el-button>
               </el-button-group>
             </div>
             <el-table :key=2 :data="circuitList" v-loading="listLoading" element-loading-text="给我一点时间" border fit highlight-current-row
@@ -149,59 +150,59 @@
             </el-table>
           </el-card>
         </el-col>
-        <el-col :span="6">
-          <el-card shadow="hover">
-            <div slot="header" class="clearfix">
-              <span>组</span>
-              <el-button
-                style="margin-left: 165px"
-                size="mini"
-                type="warning"
-                @click=""
-                icon="el-icon-document">策略</el-button>
-            </div>
-            <el-table  :data="groupList" v-loading="listLoading" element-loading-text="给我一点时间" border fit highlight-current-row
-                      style="width: 100%;margin-top: 10px"
-                      @selection-change="getControllerList">
-              <el-table-column type="selection" width="55" prop="groupId">
-              </el-table-column>
-              <el-table-column align="center" label="名称"  prop="groupName">
-              </el-table-column>
-            </el-table>
-          </el-card>
-        </el-col>
-        <el-col :span="6">
-          <el-card  shadow="hover">
-            <div slot="header" class="clearfix">
-              <span>灯</span>
-              <el-button-group style="margin-left: 40px">
-                <el-button
-                  size="mini"
-                  type="success"
-                  @click="showOnLamp"
-                  icon="el-icon-circle-check-outline">开</el-button>
-                <el-button
-                  size="mini"
-                  type="danger"
-                  @click="showOffLamp"
-                  icon="el-icon-circle-close-outline">关</el-button>
-                <el-button
-                  size="mini"
-                  type="warning"
-                  @click=""
-                  icon="el-icon-document">策略</el-button>
-              </el-button-group>
-            </div>
-            <el-table  :data="controllerList" v-loading="listLoading" element-loading-text="给我一点时间" border fit highlight-current-row
-                      style="width: 100%;margin-top: 10px"
-                      @selection-change="changeChooseController">
-              <el-table-column type="selection" width="55" prop="controllerId">
-              </el-table-column>
-              <el-table-column align="center" label="名称"  prop="controllerName">
-              </el-table-column>
-            </el-table>
-          </el-card>
-        </el-col>
+        <!--<el-col :span="6">-->
+          <!--<el-card shadow="hover">-->
+            <!--<div slot="header" class="clearfix">-->
+              <!--<span>组</span>-->
+              <!--<el-button-->
+                <!--style="margin-left: 165px"-->
+                <!--size="mini"-->
+                <!--type="warning"-->
+                <!--@click=""-->
+                <!--icon="el-icon-document">策略</el-button>-->
+            <!--</div>-->
+            <!--<el-table  :data="groupList" v-loading="listLoading" element-loading-text="给我一点时间" border fit highlight-current-row-->
+                      <!--style="width: 100%;margin-top: 10px"-->
+                      <!--@selection-change="getControllerList">-->
+              <!--<el-table-column type="selection" width="55" prop="groupId">-->
+              <!--</el-table-column>-->
+              <!--<el-table-column align="center" label="名称"  prop="groupName">-->
+              <!--</el-table-column>-->
+            <!--</el-table>-->
+          <!--</el-card>-->
+        <!--</el-col>-->
+        <!--<el-col :span="6">-->
+          <!--<el-card  shadow="hover">-->
+            <!--<div slot="header" class="clearfix">-->
+              <!--<span>灯</span>-->
+              <!--<el-button-group style="margin-left: 40px">-->
+                <!--<el-button-->
+                  <!--size="mini"-->
+                  <!--type="success"-->
+                  <!--@click="showOnLamp"-->
+                  <!--icon="el-icon-circle-check-outline">开</el-button>-->
+                <!--<el-button-->
+                  <!--size="mini"-->
+                  <!--type="danger"-->
+                  <!--@click="showOffLamp"-->
+                  <!--icon="el-icon-circle-close-outline">关</el-button>-->
+                <!--<el-button-->
+                  <!--size="mini"-->
+                  <!--type="warning"-->
+                  <!--@click=""-->
+                  <!--icon="el-icon-document">策略</el-button>-->
+              <!--</el-button-group>-->
+            <!--</div>-->
+            <!--<el-table  :data="controllerList" v-loading="listLoading" element-loading-text="给我一点时间" border fit highlight-current-row-->
+                      <!--style="width: 100%;margin-top: 10px"-->
+                      <!--@selection-change="changeChooseController">-->
+              <!--<el-table-column type="selection" width="55" prop="controllerId">-->
+              <!--</el-table-column>-->
+              <!--<el-table-column align="center" label="名称"  prop="controllerName">-->
+              <!--</el-table-column>-->
+            <!--</el-table>-->
+          <!--</el-card>-->
+        <!--</el-col>-->
       </el-row>
 
     </div>
